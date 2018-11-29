@@ -1022,6 +1022,7 @@ __irq_do_set_handler(struct irq_desc *desc, irq_flow_handler_t handle,
 		if (desc->irq_data.chip != &no_irq_chip)
 			mask_ack_irq(desc);
 		irq_state_set_disabled(desc);
+		irq_release_resources(desc);
 		if (is_chained)
 			desc->action = NULL;
 		desc->depth = 1;
@@ -1049,6 +1050,7 @@ __irq_do_set_handler(struct irq_desc *desc, irq_flow_handler_t handle,
 		irq_settings_set_norequest(desc);
 		irq_settings_set_nothread(desc);
 		desc->action = &chained_action;
+		irq_request_resources(desc);
 		irq_activate_and_startup(desc, IRQ_RESEND);
 	}
 }
