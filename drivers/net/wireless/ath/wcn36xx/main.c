@@ -663,7 +663,7 @@ static int wcn36xx_hw_scan(struct ieee80211_hw *hw,
 
 	mutex_unlock(&wcn->scan_lock);
 
-	if (!get_feat_caps(wcn->fw_feat_caps, SCAN_OFFLOAD)) {
+	if (get_feat_caps(wcn->fw_feat_caps, SCAN_OFFLOAD)) {
 		/* legacy manual/sw scan */
 		schedule_work(&wcn->scan_work);
 		return 0;
